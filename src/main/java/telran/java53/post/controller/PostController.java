@@ -1,5 +1,6 @@
 package telran.java53.post.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,14 +67,14 @@ public class PostController {
 		return postService.findPostsByAuthor(author);
 	}
 
-	@PostMapping("/posts/tags")
-	public Iterable<PostDto> findPostsByTags(@RequestBody List<String> tags) {
-		return postService.findPostsByTags(tags);
+	@GetMapping("/posts/tags")
+	public Iterable<PostDto> findPostsByTags(@RequestParam List<String> values) {
+		return postService.findPostsByTags(values);
 	}
 
-	@PostMapping("/posts/period")
-	public Iterable<PostDto> findPostsByPeriod(@RequestBody DatePeriodDto datePeriodDto) {
-		return postService.findPostsByPeriod(datePeriodDto);
+	@GetMapping("/posts/period")
+	public Iterable<PostDto> findPostsByPeriod(@RequestParam LocalDate dateFrom, @RequestParam LocalDate dateTo) {
+		return postService.findPostsByPeriod(new DatePeriodDto(dateFrom, dateTo));
 	}
 
 }
