@@ -6,10 +6,12 @@ import java.util.Set;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@EqualsAndHashCode(of = "login")
 @Document(collection = "users")
 public class UserAccount {
 	@Id
@@ -20,11 +22,11 @@ public class UserAccount {
 	String lastName;
 	@Setter
 	String password;
-	Set<String> roles;
+	Set<Role> roles;
 
 	public UserAccount() {
 		roles = new HashSet<>();
-		roles.add("USER");
+		roles.add(Role.USER);
 	}
 
 	public UserAccount(String login, String firstName, String lastName, String password) {
@@ -36,10 +38,10 @@ public class UserAccount {
 	}
 
 	public boolean addRole(String role) {
-		return roles.add(role.toUpperCase());
+		return roles.add(Role.valueOf(role.toUpperCase()));
 	}
 
 	public boolean removeRole(String role) {
-		return roles.remove(role.toUpperCase());
+		return roles.remove(Role.valueOf(role.toUpperCase()));
 	}
 }
